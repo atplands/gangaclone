@@ -1,39 +1,77 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:instagram_clone_flutter/providers/user_provider.dart';
+import 'package:instagram_clone_flutter/responsive/mobile_screen_layout.dart';
+import 'package:instagram_clone_flutter/responsive/responsive_layout.dart';
+import 'package:instagram_clone_flutter/responsive/web_screen_layout.dart';
+import 'package:instagram_clone_flutter/screens/login_screen.dart';
+import 'package:instagram_clone_flutter/utils/colors.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // Application name
-      title: 'Flutter Hello World',
-      // Application theme data, you can set the colors for the application as
-      // you want
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+  // initialise app based on platform- web or mobile
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyDb3DffXoUUXh6Mbqq94UOhIiOSdxDvdfU",
+        appId: "1:891615174364:android:d2a595463799e744095e19",
+        messagingSenderId: "891615174364",
+        projectId: "world-tic-tac-toe-championship",
+        storageBucket: 'world-tic-tac-toe-championship.appspot.com'
       ),
-      // A widget which will be started on application startup
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
+  } else {
+    await Firebase.initializeApp();
   }
+  runApp(const MyApp());
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // The title text which will be shown on the action bar
-        title: Text(title),
-      ),
-      body: Center(
-        child: Text(
-          'Hello, World!',
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider(),),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Instagram Clone',
+        theme: ThemeData.dark().copyWith(
+          scaffoldBackgroundColor: mobileBackgroundColor,
+        ),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              // Checking if the snapshot has any data or not
+              if (snapshot.hasData) {
+                // if snapshot has data which means user is logged in then we check the width of screen and accordingly display the screen layout
+                return const ResponsiveLayout(
+                  mobileScreenLayout: MobileScreenLayout(),
+                  webScreenLayout: WebScreenLayout(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
+                );
+              }
+            }
+
+            // means connection to future hasnt been made yet
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            return const LoginScreen();
+          },
         ),
       ),
     );
