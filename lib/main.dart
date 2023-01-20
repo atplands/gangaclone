@@ -17,11 +17,11 @@ void main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: "AIzaSyDb3DffXoUUXh6Mbqq94UOhIiOSdxDvdfU",
-        appId: "1:891615174364:android:d2a595463799e744095e19",
-        messagingSenderId: "891615174364",
-        projectId: "world-tic-tac-toe-championship",
-        storageBucket: 'world-tic-tac-toe-championship.appspot.com'
+        apiKey: "AIzaSyAdrmaQn4U2UjiD6gajhdy952t7X0KOois",
+        appId: "1:628734475707:web:726b8362a46a7af7fa589e",
+        messagingSenderId: "628734475707",
+        projectId: "gangaclone",
+        storageBucket: 'gangaclone.appspot.com'
       ),
     );
   } else {
