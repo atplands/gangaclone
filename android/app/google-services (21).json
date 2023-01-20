@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "628734475707",
+    "project_id": "gangaclone",
+    "storage_bucket": "gangaclone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:628734475707:android:2da215185b85ba6ffa589e",
+        "android_client_info": {
+          "package_name": "com.example.instagram_clone_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "628734475707-jso4sbqsp364kg9oi5509gk62tv86f41.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMjN6371cJ3MTFy0hSVDe7wYZszIhR3xQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "628734475707-jso4sbqsp364kg9oi5509gk62tv86f41.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
